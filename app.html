@@ -108,6 +108,7 @@
           + class_name[0].toLowerCase()
           + class_name.slice(1).replace(/[A-Z]/g, letter => "_" + letter.toLowerCase())
           + " import (\n"
+        + "    " + class_name + ",\n"
         + "    " + class_name + "Id,\n"
         + "    " + class_name + "IdList,\n"
         + "    " + class_name + "IdSet,\n"
