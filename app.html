@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="Author" content="Laurent LYAUDET">
+  <meta name="Publisher" content="Laurent LYAUDET">
+  <meta name="Description"
+    content="Dev tool to generate typing code">
+  <meta name="Keywords"
+    content="Django, Python, typing">
+  <title>DjangoTypesGen</title>
+  <style>
+  </style>
+</head>
+<body>
+  <!--
+  This file is part of DjangoTypesGen.
+
+  DjangoTypesGen is free software:
+  you can redistribute it and/or modify it
+  under the terms of the GNU Affero General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License,
+  or (at your option) any later version.
+
+  DjangoTypesGen is distributed in the hope
+  that it will be useful, but WITHOUT ANY WARRANTY;
+  without even the implied warranty of MERCHANTABILITY
+  or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Affero General Public License for more details.
+
+  You should have received a copy of the
+  GNU Affero General Public License
+  along with DjangoTypesGen.
+  If not, see <https://www.gnu.org/licenses/>
+
+  ©Copyright 2023 Laurent Lyaudet
+  -->
+  <h1>Input</h1>
+  <div>
+    <label for="class_name">
+      Model class name:
+    </label>
+    <input
+      type="text"
+      id="class_name"
+      name="class_name"
+      onchange="fill_output()"
+    >
+  </div>
+
+  <h1>Output</h1>
+  <div>
+    <label for="type_definitions">
+      Type definitions:
+    </label>
+    <textarea
+      id="type_definitions"
+      rows="10"
+      style="width: 100%; box-sizing: border-box;"
+    ></textarea>
+  </div>
+
+  <br>
+
+  <div>
+    <label for="type_imports">
+      Type imports for models.__init__:
+    </label>
+    <textarea
+      id="type_imports"
+      rows="10"
+      style="width: 100%; box-sizing: border-box;"
+    ></textarea>
+  </div>
+
+  <br>
+  <br>
+  <hr>
+
+  ©Copyright 2023 Laurent Lyaudet
+  <br>
+  GNU AGPL : this HTML file you're currently viewing
+  must contain all the source code,
+  other files of the repository should be <a href=".">here</a>,
+  or on GitHub
+  <a href="https://github.com/LLyaudet/DjangoTypesGen">
+    here
+  </a>.
+
+  <script>
+    "use strict";
+
+
+    function fill_output() {
+      let class_name = document.getElementById("class_name").value;
+      document.getElementById("type_definitions").textContent = (
+        "from typing import Dict, List, NewType, Set\n"
+        + "\n"
+        + class_name + "Id = NewType(\"" + class_name + "Id\", int)\n"
+        + class_name + "IdList = List[" + class_name + "Id]\n"
+        + class_name + "IdSet = Set[" + class_name + "Id]\n"
+        + class_name + "List = List[" + class_name + "]\n"
+        + class_name + "ById = Dict[" + class_name + "Id, " + class_name + "]"
+      );
+      document.getElementById("type_imports").textContent = (
+        "from ."
+          + class_name[0].toLowerCase()
+          + class_name.slice(1).replace(/[A-Z]/g, letter => "_" + letter.toLowerCase())
+          + " import (\n"
+        + "    " + class_name + "Id,\n"
+        + "    " + class_name + "IdList,\n"
+        + "    " + class_name + "IdSet,\n"
+        + "    " + class_name + "List,\n"
+        + "    " + class_name + "ById,\n"
+        + ")\n"
+      );
+    }
+
+  </script>
+</body>
+</html>
